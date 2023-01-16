@@ -17,3 +17,7 @@ Use it to:
 
 Vue components are resolved in `resources/js/Pages` by default but you can
 customize this path with the `inertia.pagesFolder` setting.
+
+# License
+
+This VS Code extension is open source software releaser under the [MIT License](./LICENSE.md).
