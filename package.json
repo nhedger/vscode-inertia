@@ -98,7 +98,6 @@
     "galleryBanner": {},
     "preview": true,
     "vsce": {
-        "baseImagesUrl": "https://github.com/nhedger/vscode-inertia",
         "dependencies": false
     }
 }
