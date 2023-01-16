@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.1](https://github.com/nhedger/vscode-inertia/compare/v0.1.0...v0.1.1) (2023-01-16)
+
+
+### Miscellaneous Chores
+
+* fix base image url ([483079f](https://github.com/nhedger/vscode-inertia/commit/483079f2f8a353813573544a6c09d07f36fb3964))
+
 ## [0.1.0](https://github.com/nhedger/vscode-inertia/compare/v0.1.0...v0.1.0) (2023-01-16)
 
 
