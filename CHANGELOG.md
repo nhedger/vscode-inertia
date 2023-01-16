@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.0 (2023-01-16)
+
+
+### Miscellaneous Chores
+
+* initial release ([8fa324f](https://github.com/nhedger/vscode-inertia/commit/8fa324f3d375c8f9b99071cec901f3af0a2cdb20))
+
 ## [0.1.0](https://github.com/nhedger/vscode-inertia/compare/v0.1.0...v0.1.0) (2023-01-16)
 
 
