@@ -1,0 +1,40 @@
+name: Release
+
+on:
+  push:
+    branches: ['main']
+
+jobs:
+  integrate:
+    name: Integrate
+    uses: ./.github/workflows/integrate.yaml
+
+  release:
+    name: Release
+    needs: ['integrate']
+    runs-on: ubuntu-latest
+    outputs:
+      tag_name: ${{ steps.release.outputs.tag_name }}
+      release_created: ${{ steps.release.outputs.release_created }}
+    steps:
+      - id: release
+        name: Run release-please
+        uses: google-github-actions/release-please-action@v3.7.1
+        with:
+          release-type: node
+          pull-request-header: 'Upcoming version of the VS Code extension'
+          package-name: nhedger-vscode-extension-template
+
+  package:
+    name: Package
+    needs: ['release']
+    uses: ./.github/workflows/_package.yaml
+    if: ${{ needs.release.outputs.release_created }}
+
+  publish:
+    name: Publish
+    needs: ['release', 'package']
+    uses: ./.github/workflows/_publish.yaml
+    secrets: inherit
+    with:
+      tag_name: ${{ needs.release.outputs.tag_name }}

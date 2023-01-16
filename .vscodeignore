@@ -1,0 +1,10 @@
+*
+*/**
+**/.DS_Store
+!out/extension/node/extension.js
+!out/extension/web/extension.js
+!inertia.png
+!package.json
+!package.nls.json
+!README.md
+!LICENSE.md

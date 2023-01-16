@@ -1,0 +1,104 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        // Debug the desktop extension in a VS Code desktop instance using a
+        // node-based extension host.
+        {
+            "name": "🧩 Debug Extension",
+            "type": "extensionHost",
+            "request": "launch",
+            "args": [
+                "--disable-extensions",
+                "--extensionDevelopmentKind=node",
+                "--extensionDevelopmentPath=${workspaceFolder}"
+            ],
+            "outFiles": ["${workspaceFolder}/out/extension/node/**/*.js"],
+            "preLaunchTask": "npm: watch:node",
+            "sourceMapRenames": true
+        },
+        // Debug the web extension in a VS Code desktop instance using a
+        // webworker-based extension host.
+        {
+            "name": "🧩 Debug Web Extension",
+            "type": "extensionHost",
+            "request": "launch",
+            "debugWebWorkerHost": true,
+            "args": [
+                "--disable-extensions",
+                "--extensionDevelopmentKind=web",
+                "--extensionDevelopmentPath=${workspaceFolder}"
+            ],
+            "outFiles": ["${workspaceFolder}/out/extension/web/**/*.js"],
+            "preLaunchTask": "npm: watch:web"
+        },
+        // Debug the web extension in a VS Code for the browser instance using
+        // a webworker-based extension host.
+        {
+            "name": "🧩 Debug Web Extension in the browser",
+            "type": "node",
+            "request": "launch",
+            "program": "./node_modules/.bin/vscode-test-web",
+            "args": [
+                "--browserType=chromium",
+                "--extensionDevelopmentPath=${workspaceFolder}"
+            ],
+            "outFiles": ["${workspaceFolder}/out/extension/web/**/*.js"],
+            "preLaunchTask": "npm: watch:web"
+        },
+        // Debug the desktop extension's tests in a VS Code desktop instance
+        // using a node-based extension host.
+        {
+            "name": "🧪 Debug Extension Tests",
+            "type": "extensionHost",
+            "request": "launch",
+            "args": [
+                "--disable-extensions",
+                "--extensionDevelopmentKind=node",
+                "--extensionDevelopmentPath=${workspaceFolder}",
+                "--extensionTestsPath=${workspaceFolder}/out/tests/node/test-runner.js"
+            ],
+            "outFiles": [
+                "${workspaceFolder}/out/extension/node/**/*.js",
+                "${workspaceFolder}/out/tests/node/**/*.js"
+            ],
+            "preLaunchTask": "npm: watch:node"
+        },
+        // Debug the web extension's tests in a VS Code desktop instance using
+        // a webworker-based extension host.
+        {
+            "name": "🧪 Debug Web Extension Tests",
+            "type": "extensionHost",
+            "request": "launch",
+            "debugWebWorkerHost": true,
+            "args": [
+                "--disable-extensions",
+                "--extensionDevelopmentKind=web",
+                "--extensionDevelopmentPath=${workspaceFolder}",
+                "--extensionTestsPath=${workspaceFolder}/out/tests/web/test-runner.js"
+            ],
+            "outFiles": [
+                "${workspaceFolder}/out/extension/web/**/*.js",
+                "${workspaceFolder}/out/tests/web/**/*.js"
+            ],
+            "preLaunchTask": "npm: watch:web"
+        },
+        // Debug the web extension's tests in a VS Code for the browser instance
+        // using a webworker-based extension host.
+        {
+            "name": "🧪 Debug Web Extension Tests in the browser",
+            "type": "node",
+            "request": "launch",
+            "program": "./node_modules/.bin/vscode-test-web",
+            "args": [
+                "--browserType=chromium",
+                "--extensionDevelopmentPath=${workspaceFolder}",
+                "--extensionTestsPath=${workspaceFolder}/out/tests/web/test-runner.js"
+            ],
+            "outFiles": [
+                "${workspaceFolder}/out/extension/web/**/*.js",
+                "${workspaceFolder}/out/tests/web/**/*.js"
+            ],
+            "preLaunchTask": "npm: watch:web"
+        }
+    ]
+}

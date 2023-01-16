@@ -1,0 +1,22 @@
+name: Integrate
+
+on:
+    push:
+        tags-ignore: ['*']
+    pull_request:
+    workflow_call:
+    workflow_dispatch:
+
+jobs:
+    quality:
+        name: Code Quality
+        uses: ./.github/workflows/_quality.yaml
+
+    build:
+        name: Build
+        uses: ./.github/workflows/_build.yaml
+
+    # test:
+    #     needs: ['build']
+    #     name: Test
+    #     uses: ./.github/workflows/_test.yaml
