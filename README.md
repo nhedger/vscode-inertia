@@ -7,8 +7,8 @@ This extension brings Inertia.js support to Visual Studio Code.
 ![](.github/hyperlink.png)
 
 This extension adds hyperlinks to the name of your components inside
-`Inertia::render` and `Route::inertia` method calls. This allows you to easily
-navigate to the corresponding component using `CTRL+click`.
+`Inertia::render`, `Route::inertia` and `inertia` method calls. This allows you
+to easily navigate to the corresponding component using `CTRL+click`.
 
 Use it to:
 
@@ -20,4 +20,5 @@ customize this path with the `inertia.pagesFolder` setting.
 
 # License
 
-This VS Code extension is open source software releaser under the [MIT License](./LICENSE.md).
+This VS Code extension is open source software released under the
+[MIT License](./LICENSE.md).
