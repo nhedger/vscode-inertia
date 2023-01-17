@@ -38,7 +38,7 @@ export class InertiaComponentLinkProvider implements DocumentLinkProvider {
 
         const components = [
             ...locateInDocument(helperRegex, 'component', document),
-            ...locateInDocument(routesRegex, 'component', document),
+            ...locateInDocument(renderRegex, 'component', document),
             ...locateInDocument(routesRegex, 'component', document),
         ];
 
