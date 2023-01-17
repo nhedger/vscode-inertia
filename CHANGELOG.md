@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.2.0](https://github.com/nhedger/vscode-inertia/compare/v0.1.1...v0.2.0) (2023-01-17)
+
+
+### Features
+
+* support hyperlinks for `inertia` helper ([#6](https://github.com/nhedger/vscode-inertia/issues/6)) ([f049de8](https://github.com/nhedger/vscode-inertia/commit/f049de8d9614bca2f9b33866c635d203507edac9))
+
+
+### Bug Fixes
+
+* add back accidentaly removed render regex ([b678b92](https://github.com/nhedger/vscode-inertia/commit/b678b92d8cd46c657347c37945014227a1107809))
+
 ## [0.1.1](https://github.com/nhedger/vscode-inertia/compare/v0.1.0...v0.1.1) (2023-01-16)
 
 
