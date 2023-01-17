@@ -18,6 +18,12 @@ export class InertiaComponentLinkProvider implements DocumentLinkProvider {
     provideDocumentLinks(
         document: TextDocument
     ): ProviderResult<DocumentLink[]> {
+        // https://regex101.com/r/e38QDW/1
+        const helperRegex = new RegExp(
+            'inertia\\(\\s*([\'"])(?<component>.+)(\\1)\\s*\\)',
+            'gmd'
+        );
+
         // https://regex101.com/r/4Bge9d/1
         const renderRegex = new RegExp(
             'Inertia::render\\(\\s*([\'"])(?<component>.+)(\\1)\\s*\\)',
@@ -31,7 +37,8 @@ export class InertiaComponentLinkProvider implements DocumentLinkProvider {
         );
 
         const components = [
-            ...locateInDocument(renderRegex, 'component', document),
+            ...locateInDocument(helperRegex, 'component', document),
+            ...locateInDocument(routesRegex, 'component', document),
             ...locateInDocument(routesRegex, 'component', document),
         ];
 
