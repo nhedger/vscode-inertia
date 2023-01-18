@@ -100,5 +100,8 @@
     "preview": true,
     "vsce": {
         "dependencies": false
+    },
+    "dependencies": {
+        "vscode-uri": "^3.0.7"
     }
 }
