@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.3.2](https://github.com/nhedger/vscode-inertia/compare/v0.3.1...v0.3.2) (2023-01-18)
+
+
+### Bug Fixes
+
+* multiline support for autocompletion ([40e91f2](https://github.com/nhedger/vscode-inertia/commit/40e91f2fb2857d3f1382d1ee69591bd230403fc5))
+* regex patterns ([4719b65](https://github.com/nhedger/vscode-inertia/commit/4719b65b808b72f42d5bcb457889565f8b6b2bef))
+
 ## [0.3.1](https://github.com/nhedger/vscode-inertia/compare/v0.3.0...v0.3.1) (2023-01-18)
 
 
