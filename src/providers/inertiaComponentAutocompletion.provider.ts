@@ -25,9 +25,9 @@ export class InertiaComponentAutocompletionProvider
             new Range(position.line - 1, 0, position.line, position.character)
         );
 
-        // https://regex101.com/r/ETfuvN/1
-        const renderRegex = /(Inertia::render|inertia)\([\s\s]*["']$/;
-        //https://regex101.com/r/0eMWiO/1
+        // https://regex101.com/r/yGJ9nf/2
+        const renderRegex = /\b(Inertia::render|inertia)\([\s\s]*["']$/;
+        // https://regex101.com/r/0eMWiO/2
         const routeRegex =
             /Route::inertia\([\s\S]*(['"]).+\1[\s\S]*,[\s\S]*['"]$/;
 
