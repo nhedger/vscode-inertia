@@ -2,14 +2,15 @@
     "name": "inertia",
     "displayName": "Inertia.js",
     "version": "0.2.0",
-    "description": "Inertia.js companion for VS Code",
+    "description": "Visual Studio Code extension for Inertia.js",
     "categories": [
         "Other"
     ],
     "keywords": [
         "inertia",
         "inertiajs",
-        "laravel"
+        "laravel",
+        "vue"
     ],
     "repository": {
         "type": "git",
