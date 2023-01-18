@@ -4,7 +4,7 @@ This extension brings Inertia.js support to Visual Studio Code.
 
 ## Features
 
-| Component Hyperlinks                | Autocompletion                              |
+| Hyperlinks                | Autocompletion                              |
 | :-----------------------------------: | :-------------------------------------------: |
 | <img src=".github/hyperlink.png" width="370" />          | <img src=".github/autocompletion.png" width="370" />             |
 | Adds hyperlinks to component names. | Provides autocompletion for component names |
