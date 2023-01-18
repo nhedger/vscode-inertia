@@ -5,6 +5,7 @@ import {
     CompletionList,
     Position,
     ProviderResult,
+    Range,
     TextDocument,
     Uri,
     workspace,
@@ -20,15 +21,19 @@ export class InertiaComponentAutocompletionProvider
         document: TextDocument,
         position: Position
     ): ProviderResult<CompletionItem[] | CompletionList<CompletionItem>> {
-        const lineContentUpToCursor = document
-            .lineAt(position)
-            .text.slice(0, position.character);
+        const lineContentUpToCursor = document.getText(
+            new Range(position.line - 1, 0, position.line, position.character)
+        );
+
+        // https://regex101.com/r/ETfuvN/1
+        const renderRegex = /(Inertia::render|inertia)\([\s\s]*["']$/;
+        //https://regex101.com/r/0eMWiO/1
+        const routeRegex =
+            /Route::inertia\([\s\S]*(['"]).+\1[\s\S]*,[\s\S]*['"]$/;
 
         if (
-            !/(Inertia::render|inertia)\(["']$/.test(lineContentUpToCursor) &&
-            !/Route::inertia\((['"]).+\1\s*,\s*['"]$/.test(
-                lineContentUpToCursor
-            )
+            !renderRegex.test(lineContentUpToCursor) &&
+            !routeRegex.test(lineContentUpToCursor)
         ) {
             return undefined;
         }
