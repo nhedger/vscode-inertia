@@ -1,6 +1,4 @@
 import {
-    CancellationToken,
-    CompletionContext,
     CompletionItem,
     CompletionItemKind,
     CompletionItemProvider,
@@ -12,22 +10,26 @@ import {
     workspace,
 } from 'vscode';
 
-import { Utils } from 'vscode-uri';
+import { pathDiff } from '../utils/path';
+import { unglob } from '../utils/unglob';
 
 export class InertiaComponentAutocompletionProvider
     implements CompletionItemProvider
 {
     provideCompletionItems(
         document: TextDocument,
-        position: Position,
-        token: CancellationToken,
-        context: CompletionContext
+        position: Position
     ): ProviderResult<CompletionItem[] | CompletionList<CompletionItem>> {
         const lineContentUpToCursor = document
             .lineAt(position)
             .text.slice(0, position.character);
 
-        if (!lineContentUpToCursor.endsWith('Inertia::render("')) {
+        if (
+            !/(Inertia::render|inertia)\(["']$/.test(lineContentUpToCursor) &&
+            !/Route::inertia\((['"]).+\1\s*,\s*['"]$/.test(
+                lineContentUpToCursor
+            )
+        ) {
             return undefined;
         }
 
@@ -36,38 +38,30 @@ export class InertiaComponentAutocompletionProvider
             return [];
         }
 
-        // Find all files in the workspace that match the glob pattern
+        const pagesGlob: string | undefined = workspace
+            .getConfiguration('inertia')
+            .get('pages');
+
+        if (!pagesGlob) {
+            return undefined;
+        }
 
         return workspace
             .findFiles({
                 base: workspaceURI.toString(),
                 baseUri: workspaceURI,
-                pattern: 'resources/js/Pages/**/*.vue',
+                pattern: pagesGlob,
             })
             .then((files) => {
-                const getPathDifference = (base: Uri, path: Uri) => {
-                    const baseParts = base.path.split('/').filter(Boolean);
-                    const pathParts = path.path.split('/').filter(Boolean);
-                    while (
-                        baseParts.length &&
-                        pathParts.length &&
-                        baseParts[0] === pathParts[0]
-                    ) {
-                        baseParts.shift();
-                        pathParts.shift();
-                    }
-                    return pathParts.join('/').replace(/\.[^/.]+$/, "");
-                };
-
                 return files.map((uri) => {
-                    const base = Uri.joinPath(
-                        workspaceURI,
-                        'resources/js/Pages'
+                    const base = Uri.joinPath(workspaceURI, unglob(pagesGlob));
+                    return new CompletionItem(
+                        {
+                            label: pathDiff(base, uri).replace(/\.[^/.]+$/, ''),
+                            description: 'Inertia.js',
+                        },
+                        CompletionItemKind.File
                     );
-                    return new CompletionItem({
-                        label: getPathDifference(base, uri),
-                        description: ".vue",
-                    }, CompletionItemKind.File);
                 });
             });
     }
