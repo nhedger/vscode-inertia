@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.1](https://github.com/nhedger/vscode-inertia/compare/v0.3.0...v0.3.1) (2023-01-18)
+
+
+### Bug Fixes
+
+* support multiline method calls ([4664439](https://github.com/nhedger/vscode-inertia/commit/4664439eca3e3678af3de8f97597d75441784a0c))
+
 ## [0.3.0](https://github.com/nhedger/vscode-inertia/compare/v0.2.0...v0.3.0) (2023-01-18)
 
 
