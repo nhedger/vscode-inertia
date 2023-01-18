@@ -7,6 +7,7 @@ import {
     workspace,
 } from 'vscode';
 import { locateInDocument } from '../utils/locateInDocument';
+import { unglob } from '../utils/unglob';
 
 /**
  * Inertia Component Link Provider
@@ -47,15 +48,24 @@ export class InertiaComponentLinkProvider implements DocumentLinkProvider {
             return [];
         }
 
-        const pagesFolder = workspace
+        const pages: string | undefined = workspace
             .getConfiguration('inertia')
-            .get('pagesFolder', 'resources/js/Pages');
+            .get('pages');
+
+        // Handle deprecated setting
+        const pagesFolder: string | undefined = workspace
+            .getConfiguration('inertia')
+            .get('pagesFolder');
+
+        if (pages === undefined || pagesFolder === undefined) {
+            return undefined;
+        }
 
         return components.map((component) => {
             return {
                 target: Uri.joinPath(
                     workspaceURI,
-                    pagesFolder,
+                    pagesFolder ?? unglob(pages),
                     `${component.value}.vue`
                 ),
                 range: component.range,
