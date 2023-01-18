@@ -21,19 +21,19 @@ export class InertiaComponentLinkProvider implements DocumentLinkProvider {
     ): ProviderResult<DocumentLink[]> {
         // https://regex101.com/r/e38QDW/1
         const helperRegex = new RegExp(
-            'inertia\\(\\s*([\'"])(?<component>.+)(\\1)\\s*\\)',
+            'inertia\\(\\s*([\'"])(?<component>.+)(\\1)\\s*(?:,[\\s\\S]*?)?\\)',
             'gmd'
         );
 
-        // https://regex101.com/r/4Bge9d/1
+        // https://regex101.com/r/3eqwp0/1
         const renderRegex = new RegExp(
-            'Inertia::render\\(\\s*([\'"])(?<component>.+)(\\1)\\s*\\)',
+            'Inertia::render\\(\\s*([\'"])(?<component>.+)(\\1)\\s*(?:,[\\s\\S]*?)?\\)',
             'gmd'
         );
 
-        // https://regex101.com/r/DKkafv/1
+        // https://regex101.com/r/3tjDRd/1
         const routesRegex = new RegExp(
-            'Route::inertia\\(\\s*(["\']).+\\1\\s*,\\s*(["\'])(?<component>.+)\\2\\s*\\)',
+            'Route::inertia\\(\\s*(["\']).+\\1\\s*,\\s*(["\'])(?<component>.+)\\2\\s*(?:,[\\s\\S]*?)?\\)',
             'gmd'
         );
 
