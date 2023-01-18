@@ -48,6 +48,11 @@
                         "type": "string",
                         "default": "resources/js/Pages",
                         "description": "Root folder of your applications' pages. The path is relative to the root of the workspace."
+                    },
+                    "inertia.pages": {
+                        "type": "string",
+                        "default": "resources/js/Pages/**/*.vue",
+                        "description": "A glob pattern to match the Vue components that you use as pages in your Inertia application."
                     }
                 }
             }
@@ -100,5 +105,8 @@
     "preview": true,
     "vsce": {
         "dependencies": false
+    },
+    "dependencies": {
+        "vscode-uri": "^3.0.7"
     }
 }

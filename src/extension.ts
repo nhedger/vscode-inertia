@@ -1,4 +1,5 @@
 import { ExtensionContext, languages } from 'vscode';
+import { InertiaComponentAutocompletionProvider } from './providers/inertiaComponentAutocompletion.provider';
 import { InertiaComponentLinkProvider } from './providers/inertiaComponentLink.provider';
 
 /**
@@ -12,7 +13,17 @@ export const activate = async (context: ExtensionContext) => {
         new InertiaComponentLinkProvider()
     );
 
-    context.subscriptions.push(definitionProvider);
+    const autocompletionProvider = languages.registerCompletionItemProvider(
+        {
+            scheme: 'file',
+            language: 'php',
+            pattern: '**/*.php',
+        },
+        new InertiaComponentAutocompletionProvider(),
+        ...["'", '"']
+    );
+
+    context.subscriptions.push(definitionProvider, autocompletionProvider);
 };
 
 /**

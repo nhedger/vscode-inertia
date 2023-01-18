@@ -42,8 +42,6 @@ export class InertiaComponentLinkProvider implements DocumentLinkProvider {
             ...locateInDocument(routesRegex, 'component', document),
         ];
 
-        console.log(components);
-
         const workspaceURI = workspace.getWorkspaceFolder(document.uri)?.uri;
         if (!workspaceURI) {
             return [];
