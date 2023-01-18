@@ -47,12 +47,13 @@
                     "inertia.pagesFolder": {
                         "type": "string",
                         "default": "resources/js/Pages",
-                        "description": "Root folder of your applications' pages. The path is relative to the root of the workspace."
+                        "description": "Root folder of your applications' pages. The path is relative to the root of the workspace.",
+                        "deprecationMessage": "Discontinued in favor of the inertia.pages setting."
                     },
                     "inertia.pages": {
                         "type": "string",
                         "default": "resources/js/Pages/**/*.vue",
-                        "description": "A glob pattern to match the Vue components that you use as pages in your Inertia application."
+                        "description": "A glob pattern to match the Vue components that you use as pages in your Inertia application. The root folder of your components is inferred from the glob pattern."
                     }
                 }
             }
