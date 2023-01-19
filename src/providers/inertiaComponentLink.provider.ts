@@ -61,15 +61,33 @@ export class InertiaComponentLinkProvider implements DocumentLinkProvider {
             return undefined;
         }
 
-        return components.map((component) => {
-            return {
-                target: Uri.joinPath(
-                    workspaceURI,
-                    pagesFolder ?? unglob(pages),
-                    `${component.value}.vue`
-                ),
-                range: component.range,
-            } as DocumentLink;
-        });
+        // Find candidate components with glob
+        return workspace
+            .findFiles({
+                base: workspaceURI.toString(),
+                baseUri: workspaceURI,
+                pattern: pages,
+            })
+            .then((files) => {
+                return components.map((component) => {
+                    const file = files.find((file: Uri) => {
+                        return file.path.startsWith(
+                            Uri.joinPath(
+                                workspaceURI,
+                                unglob(pages),
+                                component.value
+                            ).path
+                        );
+                    });
+
+                    return {
+                        target: file,
+                        range: component.range,
+                    } as DocumentLink;
+                });
+            })
+            .then((links) => {
+                return links.filter((link) => link.target);
+            });
     }
 }
