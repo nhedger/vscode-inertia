@@ -81,7 +81,7 @@ export class InertiaComponentLinkProvider implements DocumentLinkProvider {
                     });
 
                     return {
-                        target: Uri.joinPath(
+                        target: file ?? Uri.joinPath(
                             workspaceURI,
                             unglob(pages),
                             component.value +
@@ -92,9 +92,6 @@ export class InertiaComponentLinkProvider implements DocumentLinkProvider {
                         range: component.range,
                     } as DocumentLink;
                 });
-            })
-            .then((links) => {
-                return links.filter((link) => link.target);
             });
     }
 }
