@@ -81,7 +81,14 @@ export class InertiaComponentLinkProvider implements DocumentLinkProvider {
                     });
 
                     return {
-                        target: file,
+                        target: Uri.joinPath(
+                            workspaceURI,
+                            unglob(pages),
+                            component.value +
+                                workspace
+                                    .getConfiguration('inertia')
+                                    .get('defaultExtension', '.vue')
+                        ),
                         range: component.range,
                     } as DocumentLink;
                 });

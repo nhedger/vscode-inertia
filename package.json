@@ -54,6 +54,11 @@
                         "type": "string",
                         "default": "resources/js/Pages/**/*.vue",
                         "description": "A glob pattern to match the Vue components that you use as pages in your Inertia application. The root folder of your components is inferred from the glob pattern."
+                    },
+                    "inertia.defaultExtension": {
+                        "type": "string",
+                        "default": ".vue",
+                        "description": "The default file extension to use when generating hyperlinks to components that do not yet exist on the filesystem."
                     }
                 }
             }
