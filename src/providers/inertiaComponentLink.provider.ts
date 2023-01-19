@@ -71,10 +71,7 @@ export class InertiaComponentLinkProvider implements DocumentLinkProvider {
         });
     }
 
-    resolveDocumentLink(
-        link: DocumentLink,
-        token: CancellationToken
-    ): ProviderResult<DocumentLink> {
+    resolveDocumentLink(link: DocumentLink): ProviderResult<DocumentLink> {
         const document = window.activeTextEditor?.document;
         if (!document) {
             return undefined;
