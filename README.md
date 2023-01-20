@@ -11,16 +11,35 @@ This extension brings Inertia.js support to Visual Studio Code.
 
 ## Configuration
 
-Set the `inertia.pages` setting to a glob pattern that matches the components
-that should appear in the autocompletion dialog. The extension also uses this
-glob pattern to determine the root folder of your components.
+### `inertia.pages`
 
-For example, if your page components live under `resources/js/Pages`, you may
-want to use the following glob pattern:
+The `inertia.pages` setting must be a glob pattern that matches the components
+that should appear in the auto-completion dialog. This pattern is resolved
+relative to your workspace's root folder.
 
-```
-resources/js/Pages/**/*.vue
-```
+The extension also uses this pattern to determine the root folder of your
+components, which in turn is used to generate the hyperlinks to your page
+components.
+
+Here a some common patterns for different project types:
+
+| Project type    | Pattern                       |
+| --------------- | ----------------------------- |
+| Laravel + Vue   | `resources/js/Pages/**/*.vue` |
+| Laravel + React | `resources/js/Pages/**/*.tsx` |
+
+### `inertia.defaultExtension`
+
+When the extension generates hyperlinks to components that do not yet exist on
+the filesystem, it cannot guess which file extension to use because the glob
+pattern declared in `inertia.pages` may contain multiple file extensions. The
+extension uses this setting to creates hyperlinks with the correct file
+extension.
+
+| Project type | Pattern |
+| ------------ | ------- |
+| Vue          | `.vue`  |
+| React        | `.tsx`  |
 
 # License
 

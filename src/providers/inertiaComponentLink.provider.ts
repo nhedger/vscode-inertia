@@ -1,10 +1,12 @@
 import {
+    CancellationToken,
     DocumentLink,
     DocumentLinkProvider,
     ProviderResult,
     TextDocument,
     Uri,
     workspace,
+    window,
 } from 'vscode';
 import { locateInDocument } from '../utils/locateInDocument';
 import { unglob } from '../utils/unglob';
@@ -61,15 +63,67 @@ export class InertiaComponentLinkProvider implements DocumentLinkProvider {
             return undefined;
         }
 
+        // Find candidate components with glob
         return components.map((component) => {
             return {
-                target: Uri.joinPath(
-                    workspaceURI,
-                    pagesFolder ?? unglob(pages),
-                    `${component.value}.vue`
-                ),
                 range: component.range,
             } as DocumentLink;
         });
+    }
+
+    resolveDocumentLink(link: DocumentLink): ProviderResult<DocumentLink> {
+        const document = window.activeTextEditor?.document;
+        if (!document) {
+            return undefined;
+        }
+
+        const workspaceURI = workspace.getWorkspaceFolder(document.uri)?.uri;
+        if (!workspaceURI) {
+            return undefined;
+        }
+
+        const pages: string | undefined = workspace
+            .getConfiguration('inertia')
+            .get('pages');
+
+        // Handle deprecated setting
+        const pagesFolder: string | undefined = workspace
+            .getConfiguration('inertia')
+            .get('pagesFolder');
+
+        if (pages === undefined || pagesFolder === undefined) {
+            return undefined;
+        }
+
+        // Find candidate components with glob
+        return workspace
+            .findFiles({
+                base: workspaceURI.toString(),
+                baseUri: workspaceURI,
+                pattern: pages,
+            })
+            .then((files) => {
+                const component = document.getText(link.range);
+
+                const file = files.find((file: Uri) => {
+                    return file.path.startsWith(
+                        Uri.joinPath(workspaceURI, unglob(pages), component)
+                            .path
+                    );
+                });
+
+                link.target =
+                    file ??
+                    Uri.joinPath(
+                        workspaceURI,
+                        unglob(pages),
+                        component +
+                            workspace
+                                .getConfiguration('inertia')
+                                .get('defaultExtension', '.vue')
+                    );
+
+                return link;
+            });
     }
 }
