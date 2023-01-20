@@ -1,7 +1,7 @@
 {
     "name": "inertia",
     "displayName": "Inertia.js",
-    "version": "0.3.2",
+    "version": "0.3.3",
     "description": "Visual Studio Code extension for Inertia.js",
     "categories": [
         "Other"

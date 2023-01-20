@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.3](https://github.com/nhedger/vscode-inertia/compare/v0.3.2...v0.3.3) (2023-01-20)
+
+
+### Bug Fixes
+
+* non-vue support ([#14](https://github.com/nhedger/vscode-inertia/issues/14)) ([8c8064e](https://github.com/nhedger/vscode-inertia/commit/8c8064eaffd80a631cffe6ed1ad5ceb80c25cf29))
+
 ## [0.3.2](https://github.com/nhedger/vscode-inertia/compare/v0.3.1...v0.3.2) (2023-01-18)
 
 
