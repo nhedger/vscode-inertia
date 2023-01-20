@@ -58,6 +58,7 @@ export class InertiaComponentAutocompletionProvider
                 pattern: pagesGlob,
             })
             .then((files) => {
+                console.log(files);
                 return files.map((uri) => {
                     const base = Uri.joinPath(workspaceURI, unglob(pagesGlob));
                     return new CompletionItem(
@@ -65,7 +66,7 @@ export class InertiaComponentAutocompletionProvider
                             label: pathDiff(base, uri).replace(/\.[^/.]+$/, ''),
                             description: 'Inertia.js',
                         },
-                        CompletionItemKind.File
+                        CompletionItemKind.Value
                     );
                 });
             });
