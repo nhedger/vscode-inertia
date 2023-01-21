@@ -23,19 +23,19 @@ export class InertiaComponentLinkProvider implements DocumentLinkProvider {
     ): ProviderResult<DocumentLink[]> {
         // https://regex101.com/r/YiSfGR/2
         const helperRegex = new RegExp(
-            '^(?!Route::)inertia\\(\\s*([\'"])(?<component>.+)(\\1)\\s*(?:,[\\s\\S]*?)?\\)',
+            '^(?!Route::)inertia\\(\\s*([\'"])(?<component>(?:(?!\\1).)*)(\\1)\\s*(?:,[\\s\\S]*?)?\\);',
             'gmd'
         );
 
-        // https://regex101.com/r/3eqwp0/2
+        // https://regex101.com/r/FheqGS/1
         const renderRegex = new RegExp(
-            '\\bInertia::render\\(\\s*([\'"])(?<component>.+)(\\1)\\s*(?:,[\\s\\S]*?)?\\)',
+            '\\bInertia::render\\(\\s*([\'"])(?<component>(?:(?!\\1).)*)(\\1)\\s*(?:,[\\s\\S]*?)?\\);',
             'gmd'
         );
 
-        // https://regex101.com/r/3tjDRd/2
+        // https://regex101.com/r/3tjDRd/3
         const routesRegex = new RegExp(
-            '\\bRoute::inertia\\(\\s*(["\']).+\\1\\s*,\\s*(["\'])(?<component>.+)\\2\\s*(?:,[\\s\\S]*?)?\\)',
+            '\\bRoute::inertia\\(\\s*(["\']).+\\1\\s*,\\s*(["\'])(?<component>(?:(?!\\2).)*)\\2\\s*(?:,[\\s\\S]*?)?\\);',
             'gmd'
         );
 
