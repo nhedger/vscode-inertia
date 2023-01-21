@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.4](https://github.com/nhedger/vscode-inertia/compare/v0.3.3...v0.3.4) (2023-01-21)
+
+
+### Bug Fixes
+
+* broken hyperlinks when using function calls to pass props ([#17](https://github.com/nhedger/vscode-inertia/issues/17)) ([e2d9923](https://github.com/nhedger/vscode-inertia/commit/e2d9923aa4c32ce6c8155e77a973ce50b02aaba3))
+
 ## [0.3.3](https://github.com/nhedger/vscode-inertia/compare/v0.3.2...v0.3.3) (2023-01-20)
 
 
