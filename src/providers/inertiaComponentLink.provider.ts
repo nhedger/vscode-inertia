@@ -21,10 +21,10 @@ export class InertiaComponentLinkProvider implements DocumentLinkProvider {
     provideDocumentLinks(
         document: TextDocument
     ): ProviderResult<DocumentLink[]> {
-        // https://regex101.com/r/YiSfGR/2
+        // https://regex101.com/r/YiSfGR/5
         const helperRegex = new RegExp(
-            '^(?!Route::)inertia\\(\\s*([\'"])(?<component>(?:(?!\\1).)*)(\\1)\\s*(?:,[\\s\\S]*?)?\\);',
-            'gmd'
+            '^(?!.*Route::inertia).*inertia\\(\\s*([\'"])(?<component>.+)(\\1)\\s*(?:,[\\s\\S]*?)?\\)', 
+            'gdm'
         );
 
         // https://regex101.com/r/FheqGS/1
