@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.5](https://github.com/nhedger/vscode-inertia/compare/v0.3.4...v0.3.5) (2023-02-02)
+
+
+### Bug Fixes
+
+* `inertia` helper regex ([#20](https://github.com/nhedger/vscode-inertia/issues/20)) ([a7b05ea](https://github.com/nhedger/vscode-inertia/commit/a7b05ea3defb502276c384bcbc01eeb850eeebc8))
+
 ## [0.3.4](https://github.com/nhedger/vscode-inertia/compare/v0.3.3...v0.3.4) (2023-01-21)
 
 
