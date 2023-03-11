@@ -23,7 +23,7 @@ export class InertiaComponentLinkProvider implements DocumentLinkProvider {
     ): ProviderResult<DocumentLink[]> {
         // https://regex101.com/r/YiSfGR/5
         const helperRegex = new RegExp(
-            '^(?!.*Route::inertia).*inertia\\(\\s*([\'"])(?<component>.+)(\\1)\\s*(?:,[\\s\\S]*?)?\\)', 
+            '^(?!.*Route::inertia).*inertia\\(\\s*([\'"])(?<component>.+)(\\1)\\s*(?:,[\\s\\S]*?)?\\)',
             'gdm'
         );
 
@@ -103,11 +103,13 @@ export class InertiaComponentLinkProvider implements DocumentLinkProvider {
                 pattern: pages,
             })
             .then((files) => {
-                const component = document.getText(link.range);
+                const path = document.getText(link.range);
 
                 const file = files.find((file: Uri) => {
+                    const normalized = this.normalizeComponentPath(path);
+                    console.log(normalized);
                     return file.path.startsWith(
-                        Uri.joinPath(workspaceURI, unglob(pages), component)
+                        Uri.joinPath(workspaceURI, unglob(pages), normalized)
                             .path
                     );
                 });
@@ -117,7 +119,7 @@ export class InertiaComponentLinkProvider implements DocumentLinkProvider {
                     Uri.joinPath(
                         workspaceURI,
                         unglob(pages),
-                        component +
+                        path +
                             workspace
                                 .getConfiguration('inertia')
                                 .get('defaultExtension', '.vue')
@@ -125,5 +127,16 @@ export class InertiaComponentLinkProvider implements DocumentLinkProvider {
 
                 return link;
             });
+    }
+
+    private normalizeComponentPath(component: string): string {
+        const pathSeparators: string[] | undefined = workspace
+            .getConfiguration('inertia')
+            .get('pathSeparators', ['/']);
+
+        return component.replaceAll(
+            new RegExp(`[${pathSeparators.join('')}]`, 'g'),
+            '/'
+        );
     }
 }

@@ -55,6 +55,16 @@
                         "default": "resources/js/Pages/**/*.vue",
                         "description": "A glob pattern to match the Vue components that you use as pages in your Inertia application. The root folder of your components is inferred from the glob pattern."
                     },
+                    "inertia.pathSeparators": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "default": [
+                            "/"
+                        ],
+                        "markdownDescription": "The allowed path separators for component names.\n\n**This setting only affects how the extension resolves the component paths and autocompletion, and you must ensure that you Inertia setup handles them as well.**\n\n**When using autocompletion, component names will be shown with the first path separator.**"
+                    },
                     "inertia.defaultExtension": {
                         "type": "string",
                         "default": ".vue",
@@ -68,6 +78,9 @@
         "workspaceContains:**/*Inertia*",
         "onLanguage:php"
     ],
+    "dependencies": {
+        "vscode-uri": "^3.0.7"
+    },
     "devDependencies": {
         "@hedger/prettier-config": "^1.2.0",
         "@semantic-release/git": "^10.0.1",
@@ -111,8 +124,5 @@
     "preview": true,
     "vsce": {
         "dependencies": false
-    },
-    "dependencies": {
-        "vscode-uri": "^3.0.7"
     }
 }

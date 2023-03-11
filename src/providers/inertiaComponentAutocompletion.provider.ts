@@ -47,6 +47,11 @@ export class InertiaComponentAutocompletionProvider
             .getConfiguration('inertia')
             .get('pages');
 
+        const firstPathSeparator: string | undefined =
+            workspace
+                .getConfiguration('inertia')
+                .get('pathSeparators', ['/'])?.[0] ?? '/';
+
         if (!pagesGlob) {
             return undefined;
         }
@@ -61,9 +66,12 @@ export class InertiaComponentAutocompletionProvider
                 console.log(files);
                 return files.map((uri) => {
                     const base = Uri.joinPath(workspaceURI, unglob(pagesGlob));
+                    console.log(pathDiff(base, uri));
                     return new CompletionItem(
                         {
-                            label: pathDiff(base, uri).replace(/\.[^/.]+$/, ''),
+                            label: pathDiff(base, uri)
+                                .replace(/\.[^/.]+$/, '')
+                                .replaceAll('/', firstPathSeparator),
                             description: 'Inertia.js',
                         },
                         CompletionItemKind.Value
