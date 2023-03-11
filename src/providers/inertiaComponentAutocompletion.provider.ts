@@ -66,7 +66,6 @@ export class InertiaComponentAutocompletionProvider
                 console.log(files);
                 return files.map((uri) => {
                     const base = Uri.joinPath(workspaceURI, unglob(pagesGlob));
-                    console.log(pathDiff(base, uri));
                     return new CompletionItem(
                         {
                             label: pathDiff(base, uri)

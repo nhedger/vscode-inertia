@@ -107,7 +107,6 @@ export class InertiaComponentLinkProvider implements DocumentLinkProvider {
 
                 const file = files.find((file: Uri) => {
                     const normalized = this.normalizeComponentPath(path);
-                    console.log(normalized);
                     return file.path.startsWith(
                         Uri.joinPath(workspaceURI, unglob(pages), normalized)
                             .path
