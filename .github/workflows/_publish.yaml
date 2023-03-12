@@ -46,3 +46,8 @@ jobs:
                   pat: ${{ secrets.VS_MARKETPLACE_TOKEN }}
                   registryUrl: https://marketplace.visualstudio.com
                   extensionFile: 'inertia-${{ inputs.version }}.vsix'
+            - name: Publish to Open VSX Registry
+              uses: HaaLeo/publish-vscode-extension@v1
+              with:
+                  pat: ${{ secrets.OVSX_MARKETPLACE_TOKEN }}
+                  extensionFile: 'inertia-${{ inputs.version }}.vsix'
