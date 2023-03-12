@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.0](https://github.com/nhedger/vscode-inertia/compare/v0.3.5...v0.4.0) (2023-03-11)
+
+
+### Features
+
+* allow custom component path separators ([cc9af45](https://github.com/nhedger/vscode-inertia/commit/cc9af45207b793248d8f2bd3a230f8fe94a1ff76))
+
 ## [0.3.5](https://github.com/nhedger/vscode-inertia/compare/v0.3.4...v0.3.5) (2023-02-02)
 
 
