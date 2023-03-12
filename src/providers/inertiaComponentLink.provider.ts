@@ -1,5 +1,4 @@
 import {
-    CancellationToken,
     DocumentLink,
     DocumentLinkProvider,
     ProviderResult,
