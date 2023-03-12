@@ -3,6 +3,7 @@
 **/.DS_Store
 !out/extension/node/extension.js
 !out/extension/web/extension.js
+!CHANGELOG.md
 !inertia.png
 !package.json
 !package.nls.json
