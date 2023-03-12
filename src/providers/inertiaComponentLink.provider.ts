@@ -117,7 +117,7 @@ export class InertiaComponentLinkProvider implements DocumentLinkProvider {
                     Uri.joinPath(
                         workspaceURI,
                         unglob(pages),
-                        path +
+                        this.normalizeComponentPath(path) +
                             workspace
                                 .getConfiguration('inertia')
                                 .get('defaultExtension', '.vue')
