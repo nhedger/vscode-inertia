@@ -46,6 +46,17 @@ jobs:
                   pat: ${{ secrets.VS_MARKETPLACE_TOKEN }}
                   registryUrl: https://marketplace.visualstudio.com
                   extensionFile: 'inertia-${{ inputs.version }}.vsix'
+    openvsx-registry:
+        name: Publish to OpenVSX Registry
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v3
+            - name: "Restore extension's cached package"
+              uses: actions/cache/restore@v3
+              with:
+                  path: '*.vsix'
+                  key: 'package-${{ github.sha }}'
             - name: Publish to Open VSX Registry
               uses: HaaLeo/publish-vscode-extension@v1
               with:
