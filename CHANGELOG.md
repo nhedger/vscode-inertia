@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.2](https://github.com/nhedger/vscode-inertia/compare/v0.4.1...v0.4.2) (2023-03-12)
+
+
+### Bug Fixes
+
+* replace custom path separators in component link target ([f0451fd](https://github.com/nhedger/vscode-inertia/commit/f0451fdefa788bdcfd70f8b86c6ca9eb3767c501))
+
 ## [0.4.1](https://github.com/nhedger/vscode-inertia/compare/v0.4.0...v0.4.1) (2023-03-12)
 
 
