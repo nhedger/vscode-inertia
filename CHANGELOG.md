@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.3](https://github.com/nhedger/vscode-inertia/compare/v0.4.2...v0.4.3) (2023-03-12)
+
+
+### Miscellaneous Chores
+
+* publish to OpenVSX registry ([beeaa47](https://github.com/nhedger/vscode-inertia/commit/beeaa4787850fa6d567cc0da6286ea37221dfde2))
+
 ## [0.4.2](https://github.com/nhedger/vscode-inertia/compare/v0.4.1...v0.4.2) (2023-03-12)
 
 
