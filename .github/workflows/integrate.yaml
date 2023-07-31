@@ -1,22 +1,36 @@
 name: Integrate
 
 on:
-    push:
-        tags-ignore: ['*']
-    pull_request:
-    workflow_call:
-    workflow_dispatch:
+  push:
+    tags-ignore: ["*"]
+  pull_request:
+  workflow_call:
+  workflow_dispatch:
 
 jobs:
-    quality:
-        name: Code Quality
-        uses: ./.github/workflows/_quality.yaml
+  rome:
+    name: Rome
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set up
+        uses: ./.github/actions/setup
+      - name: Run Rome
+        run: pnpm dlx rome ci
 
-    build:
-        name: Build
-        uses: ./.github/workflows/_build.yaml
-
-    # test:
-    #     needs: ['build']
-    #     name: Test
-    #     uses: ./.github/workflows/_test.yaml
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set up
+        uses: ./.github/actions/setup
+      - name: Build extension
+        run: pnpm run build
+      - name: Save built extension assets to cache
+        uses: actions/cache/save@v3
+        with:
+          path: ./out
+          key: "build-${{ github.sha }}"

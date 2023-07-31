@@ -2,7 +2,7 @@ name: Release
 
 on:
   push:
-    branches: ['main']
+    branches: ["main"]
 
 jobs:
   integrate:
@@ -11,33 +11,50 @@ jobs:
 
   release:
     name: Release
-    needs: ['integrate']
+    needs: ["integrate"]
     runs-on: ubuntu-latest
     outputs:
       tag_name: ${{ steps.release.outputs.tag_name }}
       release_created: ${{ steps.release.outputs.release_created }}
       version:
-        '${{ steps.release.outputs.major }}.${{ steps.release.outputs.minor
-        }}.${{ steps.release.outputs.patch }}'
+        "${{ steps.release.outputs.major }}.${{ steps.release.outputs.minor
+        }}.${{ steps.release.outputs.patch }}"
     steps:
       - id: release
         name: Run release-please
         uses: google-github-actions/release-please-action@v3.7.1
         with:
           release-type: node
-          pull-request-header: 'Upcoming version of the VS Code extension'
+          pull-request-header: "Upcoming version of the VS Code extension"
           package-name: inertia
 
   package:
-    name: Package
-    needs: ['release']
-    uses: ./.github/workflows/_package.yaml
+    needs: ["release"]
     if: ${{ needs.release.outputs.release_created }}
+    name: Package
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set up
+        uses: ./.github/actions/setup
+      - name: Retrieve Linux build
+        uses: actions/cache/restore@v3
+        with:
+          path: ./out
+          key: "build-${{ github.sha }}"
+      - name: Package extension
+        run: pnpm run package
+      - name: Cache package
+        uses: actions/cache/save@v3
+        with:
+          path: "*.vsix"
+          key: "package-${{ github.sha }}"
 
   publish:
     name: Publish
-    needs: ['release', 'package']
-    uses: ./.github/workflows/_publish.yaml
+    needs: ["release", "package"]
+    uses: ./.github/workflows/publish.yaml
     secrets: inherit
     with:
       tag_name: ${{ needs.release.outputs.tag_name }}

@@ -1,5 +1,5 @@
 {
-    "extends": ["config:base", "schedule:weekly"],
-    "labels": ["dependencies"],
-    "rangeStrategy": "bump"
+	"extends": ["config:base", "schedule:weekly"],
+	"labels": ["dependencies"],
+	"rangeStrategy": "bump"
 }

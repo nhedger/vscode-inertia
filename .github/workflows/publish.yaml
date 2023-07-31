@@ -1,0 +1,64 @@
+name: Publish
+
+on:
+  workflow_call:
+    inputs:
+      version:
+        required: true
+        type: string
+      tag_name:
+        required: true
+        type: string
+
+jobs:
+  github-release:
+    name: Publish to GitHub Releases
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Retrieve package
+        uses: actions/cache/restore@v3
+        with:
+          path: "*.vsix"
+          key: "package-${{ github.sha }}"
+      - name: Upload to GitHub Releases
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ inputs.tag_name }}
+          files: |
+            *.vsix
+            LICENSE.md
+  vs-marketplace:
+    name: Publish to Visual Studio Marketplace
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: "Restore extension's cached package"
+        uses: actions/cache/restore@v3
+        with:
+          path: "*.vsix"
+          key: "package-${{ github.sha }}"
+      - name: Publish to Visual Studio Marketplace
+        uses: HaaLeo/publish-vscode-extension@v1
+        with:
+          pat: ${{ secrets.VS_MARKETPLACE_TOKEN }}
+          registryUrl: https://marketplace.visualstudio.com
+          extensionFile: "inertia-${{ inputs.version }}.vsix"
+  openvsx-registry:
+    name: Publish to OpenVSX Registry
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: "Restore extension's cached package"
+        uses: actions/cache/restore@v3
+        with:
+          path: "*.vsix"
+          key: "package-${{ github.sha }}"
+      - name: Publish to Open VSX Registry
+        uses: HaaLeo/publish-vscode-extension@v1
+        with:
+          pat: ${{ secrets.OVSX_MARKETPLACE_TOKEN }}
+          extensionFile: "inertia-${{ inputs.version }}.vsix"

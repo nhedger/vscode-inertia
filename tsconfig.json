@@ -1,10 +1,21 @@
 {
     "compilerOptions": {
-        "strict": true,
         "target": "ES2021",
-        "module": "CommonJS",
-        "skipLibCheck": true,
+        "module": "ESNext",
+        "lib": [
+            "ESNext"
+        ],
+        "moduleResolution": "Bundler",
         "esModuleInterop": true,
-        "forceConsistentCasingInFileNames": true
+        "strict": true,
+        "strictNullChecks": true,
+        "resolveJsonModule": true,
+        "skipLibCheck": true,
+        "skipDefaultLibCheck": true,
+        "paths": {
+            "@/*": [
+                "./src/*"
+            ],
+        }
     }
 }

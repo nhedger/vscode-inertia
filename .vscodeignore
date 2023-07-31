@@ -1,8 +1,8 @@
 *
 */**
 **/.DS_Store
-!out/extension/node/extension.js
-!out/extension/web/extension.js
+!out/node/extension.js
+!out/web/extension.js
 !CHANGELOG.md
 !inertia.png
 !package.json
