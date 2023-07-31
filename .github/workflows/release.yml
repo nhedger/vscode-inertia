@@ -10,6 +10,7 @@ jobs:
     uses: ./.github/workflows/integrate.yaml
 
   package:
+    needs: ["integrate"]
     name: Package
     runs-on: ubuntu-latest
     steps:
