@@ -17,7 +17,7 @@ jobs:
       - name: Set up
         uses: ./.github/actions/setup
       - name: Run Rome
-        run: pnpm dlx rome ci
+        run: pnpm dlx rome ci .
 
   build:
     name: Build
