@@ -52,6 +52,7 @@ jobs:
 
   publish:
     name: Publish
+    if: ${{ needs.release.outputs.release_created == 'true' }}
     needs: ["release", "package"]
     uses: ./.github/workflows/publish.yaml
     secrets: inherit
