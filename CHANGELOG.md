@@ -6,6 +6,8 @@
 
 - Fix an issue where the autocompletion would show absolute paths on Windows when VS Code was started from the CLI with `code .`.
 
+- Fix an issue where the component link range would be incorrect.
+
 ## [0.4.3](https://github.com/nhedger/vscode-inertia/compare/v0.4.2...v0.4.3) (2023-03-12)
 
 
