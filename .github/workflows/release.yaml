@@ -1,0 +1,28 @@
+name: Release
+
+on:
+  workflow_dispatch:
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    concurrency:
+      group: release
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+      - name: Build extension
+        run: bun run build
+      - name: Package extension
+        run: bun run package
+      - name: Publish to Visual Studio Marketplace
+        run: bun run publish:vsce
+        env:
+          VSCE_PAT: ${{ secrets.VSCE_PAT }}
+      - name: Publish to Open VSX
+        run: bun run publish:ovsx
+        env:
+          OPEN_VSX_TOKEN: ${{ secrets.OVSX_PAT }}

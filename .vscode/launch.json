@@ -8,36 +8,12 @@
 			"args": [
 				"--disable-extensions",
 				"--extensionDevelopmentKind=node",
-				"--extensionDevelopmentPath=${workspaceFolder}"
+				"--extensionDevelopmentPath=${workspaceFolder}",
+				"${workspaceFolder}/test/fixtures"
 			],
-			"outFiles": ["${workspaceFolder}/out/node/**/*.js"],
-			"preLaunchTask": "npm: watch",
+			"outFiles": ["${workspaceFolder}/dist/**/*.js"],
+			"preLaunchTask": "bun: dev",
 			"sourceMapRenames": true
-		},
-		{
-			"name": "🧩 Debug Web Extension",
-			"type": "extensionHost",
-			"request": "launch",
-			"debugWebWorkerHost": true,
-			"args": [
-				"--disable-extensions",
-				"--extensionDevelopmentKind=web",
-				"--extensionDevelopmentPath=${workspaceFolder}"
-			],
-			"outFiles": ["${workspaceFolder}/out/web/**/*.js"],
-			"preLaunchTask": "npm: watch"
-		},
-		{
-			"name": "🧩 Debug Web Extension in the browser",
-			"type": "node",
-			"request": "launch",
-			"program": "./node_modules/.bin/vscode-test-web",
-			"args": [
-				"--browserType=chromium",
-				"--extensionDevelopmentPath=${workspaceFolder}"
-			],
-			"outFiles": ["${workspaceFolder}/out/web/**/*.js"],
-			"preLaunchTask": "npm: watch"
 		}
 	]
 }

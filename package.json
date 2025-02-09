@@ -1,17 +1,10 @@
 {
 	"name": "inertia",
 	"displayName": "Inertia.js",
-	"version": "0.4.3",
+	"version": "1.0.0",
 	"description": "Visual Studio Code extension for Inertia.js",
-	"categories": [
-		"Other"
-	],
-	"keywords": [
-		"inertia",
-		"inertiajs",
-		"laravel",
-		"vue"
-	],
+	"categories": ["Other"],
+	"keywords": ["inertia", "inertiajs", "laravel", "vue"],
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/nhedger/vscode-inertia.git"
@@ -22,14 +15,14 @@
 		"email": "nicolas@hedger.ch"
 	},
 	"publisher": "nhedger",
-	"main": "./out/node/extension.js",
-	"browser": "./out/node/extension.js",
+	"main": "./dist/extension.js",
+	"browser": "./dist/extension.js",
 	"scripts": {
-		"build": "tsup",
-		"watch": "tsup --watch",
-		"format": "rome format --write .",
-		"lint": "rome check .",
-		"package": "vsce package"
+		"build": "bun build --format cjs --outdir dist --external vscode src/extension.ts",
+		"dev": "bun build --watch --format cjs --outdir dist --external vscode src/extension.ts ",
+		"package": "vsce package --out inertia.vsix",
+		"publish:vsce": "vsce publish --packagePath inertia.vsix",
+		"publish:ovsx": "ovsx publish inertia.vsix"
 	},
 	"contributes": {
 		"configuration": [
@@ -52,9 +45,7 @@
 						"items": {
 							"type": "string"
 						},
-						"default": [
-							"/"
-						],
+						"default": ["/"],
 						"markdownDescription": "The allowed path separators for component names.\n\n**This setting only affects how the extension resolves the component paths and autocompletion, and you must ensure that you Inertia setup handles them as well.**\n\n**When using autocompletion, component names will be shown with the first path separator.**"
 					},
 					"inertia.defaultExtension": {
@@ -66,26 +57,24 @@
 			}
 		]
 	},
-	"activationEvents": [
-		"workspaceContains:**/*Inertia*",
-		"onLanguage:php"
-	],
+	"activationEvents": ["workspaceContains:**/*Inertia*", "onLanguage:php"],
 	"dependencies": {
 		"vscode-uri": "^3.0.7"
 	},
 	"devDependencies": {
+		"@biomejs/biome": "^1.9.4",
 		"@types/node": "^18.11.18",
 		"@types/vscode": "^1.73.0",
-		"@vscode/vsce": "^2.20.0",
-		"rome": "^12.1.3",
-		"tsup": "^7.1.0"
+		"@vscode/vsce": "^3.2.2",
+		"lefthook": "^1.10.10",
+		"ovsx": "^0.10.1",
+		"rome": "^12.1.3"
 	},
 	"engines": {
 		"vscode": "^1.73.0"
 	},
 	"icon": "inertia.png",
 	"galleryBanner": {},
-	"preview": true,
 	"vsce": {
 		"dependencies": false,
 		"qna": "marketplace"
