@@ -1,13 +1,13 @@
-import {
-	DocumentLink,
-	DocumentLinkProvider,
-	ProviderResult,
-	TextDocument,
-	Uri,
-	workspace,
-	window,
-} from "vscode";
 import { locateInDocument, unglob } from "@/helpers";
+import {
+	type DocumentLink,
+	type DocumentLinkProvider,
+	type ProviderResult,
+	type TextDocument,
+	Uri,
+	window,
+	workspace,
+} from "vscode";
 
 /**
  * Inertia Component Link Provider
@@ -17,23 +17,17 @@ import { locateInDocument, unglob } from "@/helpers";
  */
 export class ComponentLinkProvider implements DocumentLinkProvider {
 	provideDocumentLinks(document: TextDocument): ProviderResult<DocumentLink[]> {
-		// https://regex101.com/r/YiSfGR/5
-		const helperRegex = new RegExp(
-			"^(?!.*Route::inertia).*inertia\\(\\s*(['\"])(?<component>.+)(\\1)\\s*(?:,[\\s\\S]*?)?\\)",
-			"gdm",
-		);
+		// https://regex101.com/r/YiSfGR/7
+		const helperRegex =
+			/^(?!.*Route::inertia).*inertia\(\s*(['"])(?<component>.+?)(\1)/dgm;
 
-		// https://regex101.com/r/FheqGS/1
-		const renderRegex = new RegExp(
-			"\\bInertia::render\\(\\s*(['\"])(?<component>(?:(?!\\1).)*)(\\1)\\s*(?:,[\\s\\S]*?)?\\);",
-			"gmd",
-		);
+		// https://regex101.com/r/FheqGS/5
+		const renderRegex =
+			/\bInertia::render\(\s*(['"])(?<component>(?:(?!\1).)*)(\1)/dgm;
 
-		// https://regex101.com/r/3tjDRd/3
-		const routesRegex = new RegExp(
-			"\\bRoute::inertia\\(\\s*([\"']).+\\1\\s*,\\s*([\"'])(?<component>(?:(?!\\2).)*)\\2\\s*(?:,[\\s\\S]*?)?\\);",
-			"gmd",
-		);
+		// https://regex101.com/r/3tjDRd/4
+		const routesRegex =
+			/\bRoute::inertia\(\s*(["']).+\1\s*,\s*(["'])(?<component>(?:(?!\2).)*)\2/dgm;
 
 		const components = [
 			...locateInDocument(helperRegex, "component", document),

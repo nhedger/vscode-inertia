@@ -1,9 +1,10 @@
-import { ExtensionContext, languages } from "vscode";
-import { ComponentLinkProvider } from "@/editor/component-link.provider";
 import { AutocompletionProvider } from "@/editor/autocompletion.provider";
+import { ComponentLinkProvider } from "@/editor/component-link.provider";
+import { type ExtensionContext, languages } from "vscode";
 
 /**
  * This method is called by VS Code when the extension is activated.
+ *
  */
 export const activate = async (context: ExtensionContext) => {
 	console.log("Inertia VS Code Extension is active.");

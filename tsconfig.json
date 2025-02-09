@@ -1,21 +1,17 @@
 {
-    "compilerOptions": {
-        "target": "ES2021",
-        "module": "ESNext",
-        "lib": [
-            "ESNext"
-        ],
-        "moduleResolution": "Bundler",
-        "esModuleInterop": true,
-        "strict": true,
-        "strictNullChecks": true,
-        "resolveJsonModule": true,
-        "skipLibCheck": true,
-        "skipDefaultLibCheck": true,
-        "paths": {
-            "@/*": [
-                "./src/*"
-            ],
-        }
-    }
+	"compilerOptions": {
+		"target": "ES2022",
+		"module": "ESNext",
+		"lib": ["ESNext"],
+		"moduleResolution": "Bundler",
+		"esModuleInterop": true,
+		"strict": true,
+		"strictNullChecks": true,
+		"resolveJsonModule": true,
+		"skipLibCheck": true,
+		"skipDefaultLibCheck": true,
+		"paths": {
+			"@/*": ["./src/*"]
+		}
+	}
 }

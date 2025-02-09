@@ -1,16 +1,16 @@
+import { pathDiff, unglob } from "@/helpers";
 import {
 	CompletionItem,
 	CompletionItemKind,
-	CompletionItemProvider,
-	CompletionList,
-	Position,
-	ProviderResult,
+	type CompletionItemProvider,
+	type CompletionList,
+	type Position,
+	type ProviderResult,
 	Range,
-	TextDocument,
+	type TextDocument,
 	Uri,
 	workspace,
 } from "vscode";
-import { pathDiff, unglob } from "@/helpers";
 
 export class AutocompletionProvider implements CompletionItemProvider {
 	provideCompletionItems(
