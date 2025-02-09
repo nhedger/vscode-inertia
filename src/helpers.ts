@@ -1,11 +1,11 @@
-import { Uri, Range, TextDocument } from "vscode";
+import { Range, type TextDocument, type Uri } from "vscode";
 
 /**
  * Computes the difference between two paths
  */
 export const pathDiff = (base: Uri, path: Uri) => {
-	const baseParts = base.path.split("/").filter(Boolean);
-	const pathParts = path.path.split("/").filter(Boolean);
+	const baseParts = base.fsPath.split(/[\/\\]/).filter(Boolean);
+	const pathParts = path.fsPath.split(/[\/\\]/).filter(Boolean);
 	while (
 		baseParts.length &&
 		pathParts.length &&
