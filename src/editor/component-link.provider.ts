@@ -1,4 +1,10 @@
-import { locateInDocument, unglob } from "@/helpers";
+import {
+	type PageResolver,
+	getAllPagePatterns,
+	locateInDocument,
+	resolveComponentWithPrefix,
+	unglob,
+} from "@/helpers";
 import {
 	type DocumentLink,
 	type DocumentLinkProvider,
@@ -72,14 +78,53 @@ export class ComponentLinkProvider implements DocumentLinkProvider {
 			return undefined;
 		}
 
-		const pages: string | undefined = workspace
-			.getConfiguration("inertia")
-			.get("pages");
+		const componentName = document.getText(link.range);
+		const config = workspace.getConfiguration("inertia");
 
-		// Handle deprecated setting
-		const pagesFolder: string | undefined = workspace
-			.getConfiguration("inertia")
-			.get("pagesFolder");
+		// Get page resolvers for prefix-based resolution
+		const pageResolvers: PageResolver[] = config.get("pageResolvers", []);
+		const prefixResolution = resolveComponentWithPrefix(
+			componentName,
+			pageResolvers,
+		);
+
+		if (prefixResolution) {
+			// Handle prefix-based component resolution
+			const { resolver, componentPath } = prefixResolution;
+
+			return workspace
+				.findFiles({
+					base: workspaceURI.toString(),
+					baseUri: workspaceURI,
+					pattern: resolver.pattern,
+				})
+				.then((files: Uri[]) => {
+					const normalizedPath = this.normalizeComponentPath(componentPath);
+					const file = files.find((file: Uri) => {
+						return file.path.startsWith(
+							Uri.joinPath(
+								workspaceURI,
+								unglob(resolver.pattern),
+								normalizedPath,
+							).path,
+						);
+					});
+
+					link.target =
+						file ??
+						Uri.joinPath(
+							workspaceURI,
+							unglob(resolver.pattern),
+							normalizedPath + config.get("defaultExtension", ".vue"),
+						);
+
+					return link;
+				});
+		}
+
+		// Fall back to legacy single pattern resolution
+		const pages: string | undefined = config.get("pages");
+		const pagesFolder: string | undefined = config.get("pagesFolder");
 
 		if (pages === undefined || pagesFolder === undefined) {
 			return undefined;
@@ -92,11 +137,9 @@ export class ComponentLinkProvider implements DocumentLinkProvider {
 				baseUri: workspaceURI,
 				pattern: pages,
 			})
-			.then((files) => {
-				const path = document.getText(link.range);
-
+			.then((files: Uri[]) => {
 				const file = files.find((file: Uri) => {
-					const normalized = this.normalizeComponentPath(path);
+					const normalized = this.normalizeComponentPath(componentName);
 					return file.path.startsWith(
 						Uri.joinPath(workspaceURI, unglob(pages), normalized).path,
 					);
@@ -107,10 +150,8 @@ export class ComponentLinkProvider implements DocumentLinkProvider {
 					Uri.joinPath(
 						workspaceURI,
 						unglob(pages),
-						this.normalizeComponentPath(path) +
-							workspace
-								.getConfiguration("inertia")
-								.get("defaultExtension", ".vue"),
+						this.normalizeComponentPath(componentName) +
+							config.get("defaultExtension", ".vue"),
 					);
 
 				return link;
@@ -123,7 +164,7 @@ export class ComponentLinkProvider implements DocumentLinkProvider {
 			.get("pathSeparators", ["/"]);
 
 		return component.replaceAll(
-			new RegExp(`[${pathSeparators.join("")}]`, "g"),
+			new RegExp(`[${(pathSeparators || ["/"]).join("")}]`, "g"),
 			"/",
 		);
 	}

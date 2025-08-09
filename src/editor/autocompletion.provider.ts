@@ -1,4 +1,9 @@
-import { pathDiff, unglob } from "@/helpers";
+import {
+	type PageResolver,
+	getAllPagePatterns,
+	pathDiff,
+	unglob,
+} from "@/helpers";
 import {
 	CompletionItem,
 	CompletionItemKind,
@@ -38,38 +43,58 @@ export class AutocompletionProvider implements CompletionItemProvider {
 			return [];
 		}
 
-		const pagesGlob: string | undefined = workspace
-			.getConfiguration("inertia")
-			.get("pages");
-
+		const config = workspace.getConfiguration("inertia");
 		const firstPathSeparator: string | undefined =
-			workspace.getConfiguration("inertia").get("pathSeparators", ["/"])?.[0] ??
-			"/";
+			config.get("pathSeparators", ["/"])?.[0] ?? "/";
 
-		if (!pagesGlob) {
-			return undefined;
+		// Get all page patterns (both legacy and new resolvers)
+		const pagePatterns = getAllPagePatterns(workspace);
+
+		if (pagePatterns.length === 0) {
+			// Fall back to legacy single pattern if no patterns found
+			const pagesGlob: string | undefined = config.get("pages");
+			if (!pagesGlob) {
+				return undefined;
+			}
+			pagePatterns.push({ pattern: pagesGlob });
 		}
 
-		return workspace
-			.findFiles({
-				base: workspaceURI.toString(),
-				baseUri: workspaceURI,
-				pattern: pagesGlob,
-			})
-			.then((files) => {
-				console.log(files);
-				return files.map((uri) => {
-					const base = Uri.joinPath(workspaceURI, unglob(pagesGlob));
-					return new CompletionItem(
-						{
-							label: pathDiff(base, uri)
-								.replace(/\.[^/.]+$/, "")
-								.replaceAll("/", firstPathSeparator),
-							description: "Inertia.js",
-						},
-						CompletionItemKind.Value,
-					);
-				});
-			});
+		// Create completion items for all patterns
+		const completionPromises = pagePatterns.map(({ pattern, prefix }) =>
+			workspace
+				.findFiles({
+					base: workspaceURI.toString(),
+					baseUri: workspaceURI,
+					pattern: pattern,
+				})
+				.then((files: Uri[]) => {
+					return files.map((uri) => {
+						const base = Uri.joinPath(workspaceURI, unglob(pattern));
+						const componentPath = pathDiff(base, uri)
+							.replace(/\.[^/.]+$/, "")
+							.replaceAll("/", firstPathSeparator);
+
+						// Add prefix if this pattern has one
+						const finalPath = prefix
+							? `${prefix}:${componentPath}`
+							: componentPath;
+
+						return new CompletionItem(
+							{
+								label: finalPath,
+								description: prefix
+									? `Inertia.js (${prefix} Module)`
+									: "Inertia.js",
+							},
+							CompletionItemKind.Value,
+						);
+					});
+				}),
+		);
+
+		return Promise.all(completionPromises).then((completionArrays) => {
+			// Flatten the arrays of completion items
+			return completionArrays.flat();
+		});
 	}
 }
