@@ -1,6 +1,14 @@
 import { Range, type TextDocument, type Uri } from "vscode";
 
 /**
+ * Interface for page resolver configuration
+ */
+export interface PageResolver {
+	prefix: string;
+	pattern: string;
+}
+
+/**
  * Computes the difference between two paths
  */
 export const pathDiff = (base: Uri, path: Uri) => {
@@ -57,4 +65,67 @@ export const locateInDocument = (
 	}
 
 	return results;
+};
+
+/**
+ * Resolves a component name with prefix to its actual file path
+ */
+export const resolveComponentWithPrefix = (
+	componentName: string,
+	pageResolvers: PageResolver[],
+	pathShortcuts: Record<string, string> = {},
+): { resolver: PageResolver; componentPath: string } | null => {
+	// Check if component has a prefix (format: "Prefix:ComponentPath")
+	const prefixMatch = componentName.match(/^([^:]+):(.+)$/);
+
+	if (!prefixMatch) {
+		return null;
+	}
+
+	let [, prefix, componentPath] = prefixMatch;
+
+	// Check for explicit resolver first
+	const explicitResolver = pageResolvers.find((r) => r.prefix === prefix);
+	if (explicitResolver) {
+		return { resolver: explicitResolver, componentPath };
+	}
+
+	// Check if prefix is a shortcut
+	if (pathShortcuts[prefix]) {
+		prefix = pathShortcuts[prefix];
+	}
+
+	return {
+		resolver: {
+			prefix,
+			pattern: `Modules/${prefix}/Pages/**/*`,
+		},
+		componentPath,
+	};
+};
+
+/**
+ * Gets all configured page patterns (both legacy and new resolver-based)
+ */
+export const getAllPagePatterns = (workspace: {
+	getConfiguration: (section: string) => {
+		get: (key: string, defaultValue?: unknown) => unknown;
+	};
+}): { pattern: string; prefix?: string }[] => {
+	const config = workspace.getConfiguration("inertia");
+	const patterns: { pattern: string; prefix?: string }[] = [];
+
+	// Add legacy pages pattern if configured
+	const legacyPages = config.get("pages") as string | undefined;
+	if (legacyPages) {
+		patterns.push({ pattern: legacyPages });
+	}
+
+	// Add new page resolvers
+	const pageResolvers = config.get("pageResolvers", []) as PageResolver[];
+	for (const resolver of pageResolvers) {
+		patterns.push({ pattern: resolver.pattern, prefix: resolver.prefix });
+	}
+
+	return patterns;
 };

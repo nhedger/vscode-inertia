@@ -31,6 +31,41 @@ Here a some common patterns for different project types:
 | Laravel + Vue   | `resources/js/Pages/**/*.vue` |
 | Laravel + React | `resources/js/Pages/**/*.tsx` |
 
+### `inertia.pageResolvers` (New Feature)
+
+For modular applications (e.g., using Laravel Modules), you can configure multiple page resolvers with prefixes. Each resolver maps a prefix to a specific glob pattern, allowing you to organize pages across different modules.
+
+```json
+{
+  "inertia.pageResolvers": [
+    {
+      "prefix": "Shipping",
+      "pattern": "Modules/Shipping/Pages/**/*.tsx"
+    },
+    {
+      "prefix": "Accounting", 
+      "pattern": "Modules/Accounting/Pages/**/*.tsx"
+    }
+  ]
+}
+```
+
+With this configuration, you can reference components using prefixes in your controllers:
+
+```php
+// In your controller
+return inertia('Shipping:Orders/Index');  // Points to Modules/Shipping/Pages/Orders/Index.tsx
+return inertia('Accounting:Reports/Balance');  // Points to Modules/Accounting/Pages/Reports/Balance.tsx
+```
+
+**Key benefits:**
+- **Modular organization**: Each module has its own page directory
+- **Prefix-based resolution**: Use module prefixes to avoid naming conflicts
+- **Autocompletion support**: Get intelligent suggestions for all modules
+- **Hyperlink navigation**: Click to navigate directly to module pages
+
+**Note**: When using `pageResolvers`, the traditional `pages` setting is optional and serves as a fallback for non-prefixed components.
+
 ### `inertia.pathSeparators`
 
 Inertia.js commonly uses a forward slash when it comes to component names

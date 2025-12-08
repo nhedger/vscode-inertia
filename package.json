@@ -40,6 +40,33 @@
 						"default": "resources/js/Pages/**/*.vue",
 						"description": "A glob pattern to match the Vue components that you use as pages in your Inertia application. The root folder of your components is inferred from the glob pattern."
 					},
+					"inertia.pageResolvers": {
+						"type": "array",
+						"items": {
+							"type": "object",
+							"properties": {
+								"prefix": {
+									"type": "string",
+									"description": "The prefix used in component names (e.g., 'Shipping', 'Accounting')"
+								},
+								"pattern": {
+									"type": "string",
+									"description": "The glob pattern to match components for this resolver (e.g., 'Modules/Shipping/Pages/**/*.tsx')"
+								}
+							},
+							"required": ["prefix", "pattern"]
+						},
+						"default": [],
+						"description": "Array of page resolvers, each with a prefix and corresponding glob pattern. This allows support for modular applications with multiple page directories."
+					},
+					"inertia.pathShortcuts": {
+						"type": "object",
+						"additionalProperties": {
+							"type": "string"
+						},
+						"default": {},
+						"description": "Map of shortcuts to module names. E.g. {\"AC\": \"Accounting\"} maps AC:Reports/Balance to Modules/Accounting/Pages/Reports/Balance."
+					},
 					"inertia.pathSeparators": {
 						"type": "array",
 						"items": {
