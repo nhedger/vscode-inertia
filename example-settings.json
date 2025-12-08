@@ -1,18 +1,22 @@
 {
+	"inertia.pages": "resources/apps/Pages/**/*.tsx",
 	"inertia.pageResolvers": [
 		{
 			"prefix": "Shipping",
 			"pattern": "Modules/Shipping/Pages/**/*.tsx"
 		},
 		{
-			"prefix": "Accounting",
+			"prefix": "AC",
 			"pattern": "Modules/Accounting/Pages/**/*.tsx"
 		},
 		{
-			"prefix": "Inventory",
-			"pattern": "Modules/Inventory/Pages/**/*.tsx"
+			"prefix": "HR",
+			"pattern": "Modules/HumanResources/Pages/**/*.tsx"
 		}
 	],
+	"inertia.pathShortcuts": {
+		"INV": "Inventory"
+	},
 	"inertia.defaultExtension": ".tsx",
 	"inertia.pathSeparators": ["/", "."]
 }

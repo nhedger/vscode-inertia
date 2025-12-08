@@ -73,6 +73,7 @@ export const locateInDocument = (
 export const resolveComponentWithPrefix = (
 	componentName: string,
 	pageResolvers: PageResolver[],
+	pathShortcuts: Record<string, string> = {},
 ): { resolver: PageResolver; componentPath: string } | null => {
 	// Check if component has a prefix (format: "Prefix:ComponentPath")
 	const prefixMatch = componentName.match(/^([^:]+):(.+)$/);
@@ -81,14 +82,26 @@ export const resolveComponentWithPrefix = (
 		return null;
 	}
 
-	const [, prefix, componentPath] = prefixMatch;
-	const resolver = pageResolvers.find((r) => r.prefix === prefix);
+	let [, prefix, componentPath] = prefixMatch;
 
-	if (!resolver) {
-		return null;
+	// Check for explicit resolver first
+	const explicitResolver = pageResolvers.find((r) => r.prefix === prefix);
+	if (explicitResolver) {
+		return { resolver: explicitResolver, componentPath };
 	}
 
-	return { resolver, componentPath };
+	// Check if prefix is a shortcut
+	if (pathShortcuts[prefix]) {
+		prefix = pathShortcuts[prefix];
+	}
+
+	return {
+		resolver: {
+			prefix,
+			pattern: `Modules/${prefix}/Pages/**/*`,
+		},
+		componentPath,
+	};
 };
 
 /**

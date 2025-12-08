@@ -46,19 +46,6 @@ export class ComponentLinkProvider implements DocumentLinkProvider {
 			return [];
 		}
 
-		const pages: string | undefined = workspace
-			.getConfiguration("inertia")
-			.get("pages");
-
-		// Handle deprecated setting
-		const pagesFolder: string | undefined = workspace
-			.getConfiguration("inertia")
-			.get("pagesFolder");
-
-		if (pages === undefined || pagesFolder === undefined) {
-			return undefined;
-		}
-
 		// Find candidate components with glob
 		return components.map((component) => {
 			return {
@@ -83,9 +70,14 @@ export class ComponentLinkProvider implements DocumentLinkProvider {
 
 		// Get page resolvers for prefix-based resolution
 		const pageResolvers: PageResolver[] = config.get("pageResolvers", []);
+		const pathShortcuts: Record<string, string> = config.get(
+			"pathShortcuts",
+			{},
+		);
 		const prefixResolution = resolveComponentWithPrefix(
 			componentName,
 			pageResolvers,
+			pathShortcuts,
 		);
 
 		if (prefixResolution) {
@@ -122,13 +114,8 @@ export class ComponentLinkProvider implements DocumentLinkProvider {
 				});
 		}
 
-		// Fall back to legacy single pattern resolution
-		const pages: string | undefined = config.get("pages");
-		const pagesFolder: string | undefined = config.get("pagesFolder");
-
-		if (pages === undefined || pagesFolder === undefined) {
-			return undefined;
-		}
+		// Fall back to default resolution
+		const pages = "Modules/**/*";
 
 		// Find candidate components with glob
 		return workspace

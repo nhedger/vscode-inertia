@@ -1,3 +1,4 @@
 {
-	"recommendations": ["biomejs.biome", "oven.bun-vscode"]
+	"recommendations": ["biomejs.biome", "oven.bun-vscode"],
+	"unwantedRecommendations": ["nhedger.inertia"]
 }

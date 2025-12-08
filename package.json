@@ -59,6 +59,14 @@
 						"default": [],
 						"description": "Array of page resolvers, each with a prefix and corresponding glob pattern. This allows support for modular applications with multiple page directories."
 					},
+					"inertia.pathShortcuts": {
+						"type": "object",
+						"additionalProperties": {
+							"type": "string"
+						},
+						"default": {},
+						"description": "Map of shortcuts to module names. E.g. {\"AC\": \"Accounting\"} maps AC:Reports/Balance to Modules/Accounting/Pages/Reports/Balance."
+					},
 					"inertia.pathSeparators": {
 						"type": "array",
 						"items": {
