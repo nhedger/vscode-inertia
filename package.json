@@ -63,7 +63,7 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^1.9.4",
-		"@types/node": "^18.11.18",
+		"@types/node": "^18.19.130",
 		"@types/vscode": "^1.73.0",
 		"@vscode/vsce": "^3.2.2",
 		"lefthook": "^1.10.10",
